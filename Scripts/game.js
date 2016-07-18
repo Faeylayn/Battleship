@@ -66,7 +66,7 @@ var addShipToBoard = function(player, coord, step, ship) {
   };
   player.ships.push(newShip);
   player.fleetBoard[addCoord[0]][addCoord[1]].ship = newShip;
-  for (var jdx = 1; jdx < ship.size - 1; jdx++) {
+  for (var jdx = 1; jdx < ship.size; jdx++) {
     addCoord[0] += step[0];
     addCoord[1] += step[1];
     newShip.boardPositions.push(addCoord.slice(0))
