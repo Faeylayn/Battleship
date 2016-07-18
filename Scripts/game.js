@@ -34,7 +34,7 @@ var setUpBoard = function(size) {
   var board = [], row;
   for (var i = 0; i < size; i++) {
      row = [];
-     for (var j = 0; j < size, j++) {
+     for (var j = 0; j < size; j++) {
        row.push({});
      }
     board.push(row);
@@ -51,11 +51,15 @@ var placeShip = function(player, ship) {
     testStep = directions[Math.floor(Math.random() * 4)];
     if (checkValidPlacement(player.fleetBoard, testCoord, testStep, ship.size)) {
       shipPlaced = true;
-      placeShip(player, testCoord, testStep, ship);
+      addShipToBoard(player, testCoord, testStep, ship);
     }
   }
   return player;
 };
+
+var addShipToBoard = function(player, coord, step, ship) {
+
+}
 
 var checkValidPlacement = function(board, coord, step, size) {
   // var flag = true;
@@ -75,20 +79,17 @@ var checkValidPlacement = function(board, coord, step, size) {
 var gameStart = function () {
   var player1 = {
     fleetBoard: setUpBoard(BOARDSIZE),
-    trackingBoard = setUpBoard(BOARDSIZE)
+    trackingBoard: setUpBoard(BOARDSIZE)
   };
   var player2 = {
     fleetBoard: setUpBoard(BOARDSIZE),
-    trackingBoard = setUpBoard(BOARDSIZE)
+    trackingBoard: setUpBoard(BOARDSIZE)
   };
 
   for (var idx = 0; idx < ships.length; idx++) {
     placeShip(player1, ships[idx]);
     placeShip(player2, ships[idx]);
   }
+  console.log(player1);
 
-
-  while (!victory) {
-
-  }
 };
