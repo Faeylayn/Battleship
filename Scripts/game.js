@@ -82,6 +82,7 @@ var addShipToBoard = function(player, coord, step, ship) {
 };
 
 var checkValidPlacement = function(board, coord, step, size) {
+  //checks if all spaces in the suggested placement are valid
   var checkCoord = coord.slice(0);
   if (checkCoord[0] >= BOARDSIZE || checkCoord[0] < 0 ||
     checkCoord[1] >= BOARDSIZE || checkCoord[1] < 0 || board[checkCoord[0]][checkCoord[1]].ship) {
@@ -130,8 +131,8 @@ var drawPlayer = function(player) {
 };
 
 var bindEvents = function(player) {
-  player.$el.find('.tracking-board').on('click', function(event) {
 
+  player.$el.find('.tracking-board').on('click', function(event) {
     if (firingPlayer == player) {
       handleClick(event)
 
@@ -145,36 +146,44 @@ var checkValidShot = function(coordinates) {
 }
 
 var handleClick = function(event) {
-  console.log(event);
-  console.log(event.target.attributes[0].value);
 
-  var coordinates = event.target.attributes[0].value.split(",")
+  var coordinates = event.target.attributes[0].value
 
-  // console.log(coordinates);
-
-   if (!checkValidShot(coordinates)) {
-     $('.invalid-move').text("Can't do that starfox")
+    //if it is hit or missed than the coordinates would label it as an invalid move
+   if (coordinates == "hit" || coordinates == "missed") {
+     $('.announcement').text("Can't let you do that starfox")
    } else {
+     coordinates = coordinates.split(",")
      placeShot(coordinates);
 
      var temp = firingPlayer;
      firingPlayer = opposingPlayer;
      opposingPlayer = temp;
    }
+}
 
-
-
-
+var checkSunk = function(ship, player) {
+  for (var i = 0; i < ship.boardPositions.length; i++) {
+    if (player.fleetBoard[ship.boardPositions[i][0]][ship.boardPositions[i][1]].missed) {
+      return false
+    }
+  }
+  ship.sunk = true;
+  $('.announcement').text("You have hit and sunk the " + ship.class);
 }
 
 var placeShot = function(coord) {
   if (opposingPlayer.fleetBoard[coord[0]][coord[1]].ship) {
     opposingPlayer.fleetBoard[coord[0]][coord[1]].hit = true;
     firingPlayer.trackingBoard[coord[0]][coord[1]].hit = true;
+    $('.announcement').text("It's a HIT!");
+    checkSunk(opposingPlayer.fleetBoard[coord[0]][coord[1]].ship, opposingPlayer)
   } else {
     opposingPlayer.fleetBoard[coord[0]][coord[1]].missed = true;
     firingPlayer.trackingBoard[coord[0]][coord[1]].missed = true;
+    $('.announcement').text("Missed!")
   }
+
   drawPlayer(opposingPlayer);
   drawPlayer(firingPlayer);
 }

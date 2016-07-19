@@ -11,10 +11,6 @@ li {
   border: 1px solid black;
 }
 
-li.ship {
-  background: green;
-}
-
 li.aircraft-carrier {
   background: #123
 }
@@ -46,6 +42,7 @@ li.hit {
 .player {
   float: left;
   margin-left: 50px;
+  width: 500px;
 }
 
 .tracking-board {
