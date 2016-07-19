@@ -131,11 +131,9 @@ var drawPlayer = function(player) {
 };
 
 var bindEvents = function(player) {
-
   player.$el.find('.tracking-board').on('click', function(event) {
     if (firingPlayer == player) {
       handleClick(event)
-
     }
   })
 }
@@ -146,9 +144,7 @@ var checkValidShot = function(coordinates) {
 }
 
 var handleClick = function(event) {
-
   var coordinates = event.target.attributes[0].value
-
     //if it is hit or missed than the coordinates would label it as an invalid move
    if (coordinates == "hit" || coordinates == "missed") {
      $('.announcement').text("Can't let you do that starfox")
@@ -156,10 +152,24 @@ var handleClick = function(event) {
      coordinates = coordinates.split(",")
      placeShot(coordinates);
 
-     var temp = firingPlayer;
-     firingPlayer = opposingPlayer;
-     opposingPlayer = temp;
+     if (checkVictory(opposingPlayer)) {
+       alert("You win!")
+     } else {
+        var temp = firingPlayer;
+        firingPlayer = opposingPlayer;
+        opposingPlayer = temp;
+     }
+
    }
+}
+
+var checkVictory = function(player) {
+  for (var i = 0; i < player.ships.length; i++) {
+    if (!player.ships[i].sunk) {
+      return false;
+    }
+  }
+  return true;
 }
 
 var checkSunk = function(ship, player) {
