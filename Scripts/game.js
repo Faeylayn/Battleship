@@ -28,7 +28,7 @@ var ships = [
     size: 2,
     id: 4
   },
-]
+];
 
 var setUpBoard = function(size) {
   var board = [], row;
@@ -48,7 +48,6 @@ var placeShip = function(player, ship) {
   var testCoord, testStep;
   while (!shipPlaced) {
     testCoord = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
-    console.log(testCoord);
     testStep = directions[Math.floor(Math.random() * 4)];
     if (checkValidPlacement(player.fleetBoard, testCoord, testStep, ship.size)) {
       shipPlaced = true;
@@ -69,10 +68,10 @@ var addShipToBoard = function(player, coord, step, ship) {
   for (var jdx = 1; jdx < ship.size; jdx++) {
     addCoord[0] += step[0];
     addCoord[1] += step[1];
-    newShip.boardPositions.push(addCoord.slice(0))
+    newShip.boardPositions.push(addCoord.slice(0));
     player.fleetBoard[addCoord[0]][addCoord[1]].ship = newShip;
   }
-}
+};
 
 var checkValidPlacement = function(board, coord, step, size) {
   // var flag = true;
@@ -91,24 +90,48 @@ var checkValidPlacement = function(board, coord, step, size) {
     }
   }
   return true
-}
+};
+
+var drawPlayer = function(player) {
+  var row;
+  for(var i = 0; i < BOARDSIZE; i++){
+    row = "<ul>"
+    for(var j = 0; j < BOARDSIZE; j++){
+      if (player.fleetBoard[i][j].missed) {
+        row += "<li class='missed'></li>";
+      } else if (player.fleetBoard[i][j].hit) {
+        row += "<li class='hit'></li>";
+      } else if (player.fleetBoard[i][j].ship) {
+        row += "<li class='ship'></li>";
+      } else {
+        row += "<li></li>";
+      }
+    }
+    row += "</ul>"
+    player.$el.append($(row))
+  }
+};
 
 var gameStart = function () {
   var player1 = {
     fleetBoard: setUpBoard(BOARDSIZE),
     trackingBoard: setUpBoard(BOARDSIZE),
-    ships: []
+    ships: [],
+    $el: $('.player1')
   };
   var player2 = {
     fleetBoard: setUpBoard(BOARDSIZE),
     trackingBoard: setUpBoard(BOARDSIZE),
-    ships: []
+    ships: [],
+    $el: $('.player2')
   };
 
   for (var idx = 0; idx < ships.length; idx++) {
     placeShip(player1, ships[idx]);
     placeShip(player2, ships[idx]);
   }
-  console.log(player1);
 
+  drawPlayer(player1);
+  drawPlayer(player2);
+  console.log(player1);
 };

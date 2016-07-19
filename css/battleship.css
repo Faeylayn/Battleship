@@ -1,0 +1,20 @@
+ul{
+  list-style: none;
+  width: 220px;
+}
+
+li {
+  float: left;
+  height: 20px;
+  width: 20px;
+  background: #fff;
+  border: 1px solid black;
+}
+
+li.ship {
+  background: green;
+}
+
+.player {
+  float: left
+}
