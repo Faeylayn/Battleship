@@ -164,7 +164,7 @@ var handleClick = function(event) {
 
 var checkSunk = function(ship, player) {
   for (var i = 0; i < ship.boardPositions.length; i++) {
-    if (player.fleetBoard[ship.boardPositions[i][0]][ship.boardPositions[i][1]].missed) {
+    if (!player.fleetBoard[ship.boardPositions[i][0]][ship.boardPositions[i][1]].hit) {
       return false
     }
   }
