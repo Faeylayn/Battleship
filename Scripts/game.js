@@ -117,6 +117,8 @@ var drawRow = function(board, i) {
 };
 
 var drawPlayer = function(player) {
+  player.$el.find('.tracking-board').children().remove();
+  player.$el.find('.fleet-board').children().remove();
   for (var i = 0; i < BOARDSIZE; i++) {
     row = drawRow(player.trackingBoard, i);
     player.$el.find('.tracking-board').append($(row))
@@ -166,7 +168,15 @@ var handleClick = function(event) {
 }
 
 var placeShot = function(coord) {
-  console.log(opposingPlayer.trackingBoard[coord[0]][coord[1]]);
+  if (opposingPlayer.fleetBoard[coord[0]][coord[1]].ship) {
+    opposingPlayer.fleetBoard[coord[0]][coord[1]].hit = true;
+    firingPlayer.trackingBoard[coord[0]][coord[1]].hit = true;
+  } else {
+    opposingPlayer.fleetBoard[coord[0]][coord[1]].missed = true;
+    firingPlayer.trackingBoard[coord[0]][coord[1]].missed = true;
+  }
+  drawPlayer(opposingPlayer);
+  drawPlayer(firingPlayer);
 }
 
 var gameStart = function () {

@@ -15,7 +15,7 @@ li.ship {
   background: green;
 }
 
-li.aircraft-Carrier {
+li.aircraft-carrier {
   background: #123
 }
 
@@ -35,7 +35,7 @@ li.patrol-boat {
   background: #2ef
 }
 
-li.miss {
+li.missed {
   background: blue;
 }
 
