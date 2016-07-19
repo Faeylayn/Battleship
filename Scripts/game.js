@@ -3,29 +3,30 @@
 var BOARDSIZE = 10;
 var victory = false;
 var turn = 1;
+var firingPlayer, opposingPlayer;
 var ships = [
   {
-    name: "Aircraft-Carrier",
+    name: "aircraft-carrier",
     size: 5,
     id: 0
   },
   {
-    name: "Battleship",
+    name: "battleship",
     size: 4,
     id: 1
   },
   {
-    name: "Destroyer",
+    name: "destroyer",
     size: 3,
     id: 2
   },
   {
-    name: "Submarine",
+    name: "submarine",
     size: 3,
     id: 3
   },
   {
-    name: "Patrol-Boat",
+    name: "patrol-boat",
     size: 2,
     id: 4
   },
@@ -102,18 +103,18 @@ var drawRow = function(board, i) {
   row = "<ul>"
   for(var j = 0; j < BOARDSIZE; j++){
     if (board[i][j].missed) {
-      row += "<li class='missed'></li>";
+      row += "<li class='missed' data-coord='" + [i, j] + "'></li>";
     } else if (board[i][j].hit) {
-      row += "<li class='hit'></li>";
+      row += "<li class='hit' data-coord='" + [i, j] + "'></li>";
     } else if (board[i][j].ship) {
-      row += "<li class='" + board[i][j].ship.class + "'></li>";
+      row += "<li class='" + board[i][j].ship.class + "' data-coord='" + [i, j] + "'></li>";
     } else {
-      row += "<li></li>";
+      row += "<li data-coord='" + [i, j] + "'></li>";
     }
   }
   row += "</ul>"
   return row
-}
+};
 
 var drawPlayer = function(player) {
   for (var i = 0; i < BOARDSIZE; i++) {
@@ -125,6 +126,48 @@ var drawPlayer = function(player) {
     player.$el.find('.fleet-board').append($(row))
   }
 };
+
+var bindEvents = function(player) {
+  player.$el.find('.tracking-board').on('click', function(event) {
+
+    if (firingPlayer == player) {
+      handleClick(event)
+
+    }
+  })
+}
+
+var checkValidShot = function(coordinates) {
+  return !firingPlayer.trackingBoard[coordinates[0]][coordinates[1]].miss &&
+    !firingPlayer.trackingBoard[coordinates[0]][coordinates[1]].hit
+}
+
+var handleClick = function(event) {
+  console.log(event);
+  console.log(event.target.attributes[0].value);
+
+  var coordinates = event.target.attributes[0].value.split(",")
+
+  // console.log(coordinates);
+
+   if (!checkValidShot(coordinates)) {
+     $('.invalid-move').text("Can't do that starfox")
+   } else {
+     placeShot(coordinates);
+
+     var temp = firingPlayer;
+     firingPlayer = opposingPlayer;
+     opposingPlayer = temp;
+   }
+
+
+
+
+}
+
+var placeShot = function(coord) {
+  console.log(opposingPlayer.trackingBoard[coord[0]][coord[1]]);
+}
 
 var gameStart = function () {
   var player1 = {
@@ -147,5 +190,12 @@ var gameStart = function () {
 
   drawPlayer(player1);
   drawPlayer(player2);
+
+  bindEvents(player1);
+  bindEvents(player2);
+
+  firingPlayer = player1;
+  opposingPlayer = player2;
+
   console.log(player1);
 };

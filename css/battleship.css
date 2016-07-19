@@ -15,23 +15,23 @@ li.ship {
   background: green;
 }
 
-li.Aircraft-Carrier {
+li.aircraft-Carrier {
   background: #123
 }
 
-li.Battleship {
+li.battleship {
   background: #345
 }
 
-li.Destroyer {
+li.destroyer {
   background: #abc
 }
 
-li.Submarine {
+li.submarine {
   background: #def
 }
 
-li.Patrol-Boat {
+li.patrol-boat {
   background: #2ef
 }
 
