@@ -1,10 +1,11 @@
 
+// start variables
 var BOARDSIZE = 10;
 var victory = false;
 var turn = 1;
 var ships = [
   {
-    name: "Aircraft Carrier",
+    name: "Aircraft-Carrier",
     size: 5,
     id: 0
   },
@@ -24,13 +25,16 @@ var ships = [
     id: 3
   },
   {
-    name: "Patrol Boat",
+    name: "Patrol-Boat",
     size: 2,
     id: 4
   },
 ];
 
+// board setup and ship placement
+
 var setUpBoard = function(size) {
+  //creates a square board based on the BOARDSIZE
   var board = [], row;
   for (var i = 0; i < size; i++) {
      row = [];
@@ -43,6 +47,7 @@ var setUpBoard = function(size) {
 };
 
 var placeShip = function(player, ship) {
+  // chooses a random space and direction to place a ship until it finds a valid choice
   var shipPlaced = false;
   var directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
   var testCoord, testStep;
@@ -58,10 +63,12 @@ var placeShip = function(player, ship) {
 };
 
 var addShipToBoard = function(player, coord, step, ship) {
+  // adds the ship to the player object for reference
   var addCoord = coord.slice(0);
   var newShip = {
     id: ship.id,
-    boardPositions: [coord]
+    boardPositions: [coord],
+    class: ship.name
   };
   player.ships.push(newShip);
   player.fleetBoard[addCoord[0]][addCoord[1]].ship = newShip;
@@ -74,14 +81,12 @@ var addShipToBoard = function(player, coord, step, ship) {
 };
 
 var checkValidPlacement = function(board, coord, step, size) {
-  // var flag = true;
   var checkCoord = coord.slice(0);
   if (checkCoord[0] >= BOARDSIZE || checkCoord[0] < 0 ||
     checkCoord[1] >= BOARDSIZE || checkCoord[1] < 0 || board[checkCoord[0]][checkCoord[1]].ship) {
       return false
   }
   for (var check = 1; check < size; check++) {
-    // checkCoord = coord;
     checkCoord[0] += step[0];
     checkCoord[1] += step[1];
     if (checkCoord[0] >= BOARDSIZE || checkCoord[0] < 0 ||
@@ -92,23 +97,32 @@ var checkValidPlacement = function(board, coord, step, size) {
   return true
 };
 
-var drawPlayer = function(player) {
+var drawRow = function(board, i) {
   var row;
-  for(var i = 0; i < BOARDSIZE; i++){
-    row = "<ul>"
-    for(var j = 0; j < BOARDSIZE; j++){
-      if (player.fleetBoard[i][j].missed) {
-        row += "<li class='missed'></li>";
-      } else if (player.fleetBoard[i][j].hit) {
-        row += "<li class='hit'></li>";
-      } else if (player.fleetBoard[i][j].ship) {
-        row += "<li class='ship'></li>";
-      } else {
-        row += "<li></li>";
-      }
+  row = "<ul>"
+  for(var j = 0; j < BOARDSIZE; j++){
+    if (board[i][j].missed) {
+      row += "<li class='missed'></li>";
+    } else if (board[i][j].hit) {
+      row += "<li class='hit'></li>";
+    } else if (board[i][j].ship) {
+      row += "<li class='" + board[i][j].ship.class + "'></li>";
+    } else {
+      row += "<li></li>";
     }
-    row += "</ul>"
-    player.$el.append($(row))
+  }
+  row += "</ul>"
+  return row
+}
+
+var drawPlayer = function(player) {
+  for (var i = 0; i < BOARDSIZE; i++) {
+    row = drawRow(player.trackingBoard, i);
+    player.$el.find('.tracking-board').append($(row))
+  }
+  for (var i = 0; i < BOARDSIZE; i++) {
+    row = drawRow(player.fleetBoard, i);
+    player.$el.find('.fleet-board').append($(row))
   }
 };
 

@@ -15,6 +15,39 @@ li.ship {
   background: green;
 }
 
+li.Aircraft-Carrier {
+  background: #123
+}
+
+li.Battleship {
+  background: #345
+}
+
+li.Destroyer {
+  background: #abc
+}
+
+li.Submarine {
+  background: #def
+}
+
+li.Patrol-Boat {
+  background: #2ef
+}
+
+li.miss {
+  background: blue;
+}
+
+li.hit {
+  background: red;
+}
+
 .player {
-  float: left
+  float: left;
+  margin-left: 50px;
+}
+
+.tracking-board {
+  height: 260px;
 }
