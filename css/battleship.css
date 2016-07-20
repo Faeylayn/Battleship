@@ -31,11 +31,11 @@ li.patrol-boat {
   background: #2ef
 }
 
-li.missed {
+.missed {
   background: blue;
 }
 
-li.hit {
+.hit {
   background: red;
 }
 
@@ -70,6 +70,23 @@ li.hit {
   left: -95px;
 }
 
-.turn-pass {
+.overlay {
+  position: absolute;
+  left: 380px;
+  width: 200px;
+  top: 200px;
+}
 
+.turn-pass {
+  position: absolute;
+  z-index: 100;
+  top: 40px;
+}
+
+.announcement {
+  position: absolute;
+  z-index: 100;
+  color: #fff;
+  width: 200px;
+  text-align: center;
 }

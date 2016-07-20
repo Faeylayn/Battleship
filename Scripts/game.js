@@ -146,6 +146,8 @@ var bindEvents = function(player1, player2) {
   $('.turn-pass').on('click', function() {
     $('.turn-pass').children().remove();
     $('.announcement').text("")
+    $('.announcement').removeClass("hit")
+    $('.announcement').removeClass("missed")
      drawPlayer(firingPlayer);
   })
 }
@@ -197,6 +199,7 @@ var checkSunk = function(ship, player) {
   }
   ship.sunk = true;
   $('.announcement').text("You have hit and sunk the " + ship.class);
+  $('.announcement').addClass("hit")
 }
 
 var placeShot = function(coord) {
@@ -205,11 +208,13 @@ var placeShot = function(coord) {
     opposingPlayer.fleetBoard[coord[0]][coord[1]].hit = true;
     firingPlayer.trackingBoard[coord[0]][coord[1]].hit = true;
     $('.announcement').text("It's a HIT!");
+    $('.announcement').addClass("hit")
     checkSunk(opposingPlayer.fleetBoard[coord[0]][coord[1]].ship, opposingPlayer)
   } else {
     opposingPlayer.fleetBoard[coord[0]][coord[1]].missed = true;
     firingPlayer.trackingBoard[coord[0]][coord[1]].missed = true;
     $('.announcement').text("Missed!")
+    $('.announcement').addClass("missed")
   }
 }
 
