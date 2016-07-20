@@ -53,7 +53,7 @@ var placeShip = function(player, ship) {
   var directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
   var testCoord, testStep;
   while (!shipPlaced) {
-    testCoord = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+    testCoord = [Math.floor(Math.random() * BOARDSIZE), Math.floor(Math.random() * BOARDSIZE)];
     testStep = directions[Math.floor(Math.random() * 4)];
     if (checkValidPlacement(player.fleetBoard, testCoord, testStep, ship.size)) {
       shipPlaced = true;
