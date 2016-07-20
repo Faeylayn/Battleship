@@ -102,3 +102,28 @@ li.patrol-boat {
 body {
   background-image: url("../images/SeaSurface.jpg")
 }
+
+.instructions {
+  float: left;
+  position: absolute;
+  display: none;
+  width: 500px;
+  border: 2px solid black;
+  background: #ccc;
+  right: 0;
+}
+
+.display-instructions {
+  position: absolute;
+  top: 0;
+  left: 90%;
+  float: right;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.display-instructions:hover .instructions {
+  display: block;
+  z-index: 1;
+}
