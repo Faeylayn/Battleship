@@ -43,10 +43,31 @@ li.hit {
   float: left;
   margin-left: 50px;
   width: 500px;
+  position: relative;
+}
+
+.player h3 {
+  padding-bottom: 50px;
 }
 
 .tracking-board {
   height: 260px;
+  z-index: 100;
+}
+.tracking-board ul {
+  z-index: 100;
+}
+
+.tracking-board li {
+  z-index: 100;
+}
+
+.tracking-board-bg {
+  position: absolute;
+  z-index: -10;
+  top: 73px;
+  height: 272px;
+  left: -95px;
 }
 
 .turn-pass {
