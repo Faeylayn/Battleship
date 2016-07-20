@@ -130,11 +130,23 @@ var drawPlayer = function(player) {
   }
 };
 
-var bindEvents = function(player) {
-  player.$el.find('.tracking-board').on('click', function(event) {
-    if (firingPlayer == player) {
+var bindEvents = function(player1, player2) {
+  player1.$el.find('.tracking-board').on('click', function(event) {
+    if (firingPlayer == player1) {
       handleClick(event)
     }
+  })
+
+  player2.$el.find('.tracking-board').on('click', function(event) {
+    if (firingPlayer == player2) {
+      handleClick(event)
+    }
+  })
+
+  $('.turn-pass').on('click', function() {
+    $('.turn-pass').children().remove();
+    $('.announcement').text("")
+     drawPlayer(firingPlayer);
   })
 }
 
@@ -155,6 +167,9 @@ var handleClick = function(event) {
      if (checkVictory(opposingPlayer)) {
        alert("You win!")
      } else {
+       $('.turn-pass').append($("<button>Press here for " + opposingPlayer.name + " to start their turn</button>"))
+       firingPlayer.$el.find('.tracking-board').children().remove();
+       firingPlayer.$el.find('.fleet-board').children().remove();
         var temp = firingPlayer;
         firingPlayer = opposingPlayer;
         opposingPlayer = temp;
@@ -164,6 +179,7 @@ var handleClick = function(event) {
 }
 
 var checkVictory = function(player) {
+  // checks if all a player's ships are sunk
   for (var i = 0; i < player.ships.length; i++) {
     if (!player.ships[i].sunk) {
       return false;
@@ -173,6 +189,7 @@ var checkVictory = function(player) {
 }
 
 var checkSunk = function(ship, player) {
+  // checks through each square of the ship until it finds a missed square
   for (var i = 0; i < ship.boardPositions.length; i++) {
     if (!player.fleetBoard[ship.boardPositions[i][0]][ship.boardPositions[i][1]].hit) {
       return false
@@ -183,6 +200,7 @@ var checkSunk = function(ship, player) {
 }
 
 var placeShot = function(coord) {
+  //registers the shot on both player's boards and then provides feedback
   if (opposingPlayer.fleetBoard[coord[0]][coord[1]].ship) {
     opposingPlayer.fleetBoard[coord[0]][coord[1]].hit = true;
     firingPlayer.trackingBoard[coord[0]][coord[1]].hit = true;
@@ -193,23 +211,23 @@ var placeShot = function(coord) {
     firingPlayer.trackingBoard[coord[0]][coord[1]].missed = true;
     $('.announcement').text("Missed!")
   }
-
-  drawPlayer(opposingPlayer);
-  drawPlayer(firingPlayer);
 }
 
 var gameStart = function () {
+  //sets up up the board and gets the game loop started
   var player1 = {
     fleetBoard: setUpBoard(BOARDSIZE),
     trackingBoard: setUpBoard(BOARDSIZE),
     ships: [],
-    $el: $('.player1')
+    $el: $('.player1'),
+    name: "Player 1"
   };
   var player2 = {
     fleetBoard: setUpBoard(BOARDSIZE),
     trackingBoard: setUpBoard(BOARDSIZE),
     ships: [],
-    $el: $('.player2')
+    $el: $('.player2'),
+    name: "Player 2"
   };
 
   for (var idx = 0; idx < ships.length; idx++) {
@@ -218,13 +236,11 @@ var gameStart = function () {
   }
 
   drawPlayer(player1);
-  drawPlayer(player2);
+  // drawPlayer(player2);
 
-  bindEvents(player1);
-  bindEvents(player2);
+  bindEvents(player1, player2);
+  // bindEvents(player2);
 
   firingPlayer = player1;
   opposingPlayer = player2;
-
-  console.log(player1);
 };
