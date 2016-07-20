@@ -1,6 +1,11 @@
-ul{
+.player ul{
   list-style: none;
   width: 220px;
+}
+
+.player .ships-remaining ul {
+  width: 150px;
+  height: 30px;
 }
 
 li {
@@ -51,6 +56,10 @@ li.patrol-boat {
 }
 
 .tracking-board {
+  height: 260px;
+  z-index: 100;
+}
+.fleet-board {
   height: 260px;
   z-index: 100;
 }

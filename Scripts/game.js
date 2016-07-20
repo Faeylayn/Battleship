@@ -130,6 +130,23 @@ var drawPlayer = function(player) {
   }
 };
 
+var drawShipsRemaining = function(player) {
+  var ships = "";
+  var ship;
+
+  for(var j = 0; j < player.ships.length; j++){
+    ship = "<ul class='" + player.ships[j].class + "'>"
+    for (var i = 0; i < player.ships[j].boardPositions.length; i++) {
+        ship += "<li></li>";
+    }
+    ship += "</ul><br>";
+    ships += ship;
+  }
+  player.$el.find('.ships-remaining').append($(ships));
+}
+
+//set up interactivity
+
 var bindEvents = function(player1, player2) {
   player1.$el.find('.tracking-board').on('click', function(event) {
     if (firingPlayer == player1) {
@@ -198,6 +215,8 @@ var checkSunk = function(ship, player) {
     }
   }
   ship.sunk = true;
+  console.log(player.$el.find('.ships-remaining .' + ship.class));
+  player.$el.find('.ships-remaining .' + ship.class).addClass("hit");
   $('.announcement').text("You have hit and sunk the " + ship.class);
   $('.announcement').addClass("hit")
 }
@@ -241,10 +260,10 @@ var gameStart = function () {
   }
 
   drawPlayer(player1);
-  // drawPlayer(player2);
+  drawShipsRemaining(player1);
+  drawShipsRemaining(player2);
 
   bindEvents(player1, player2);
-  // bindEvents(player2);
 
   firingPlayer = player1;
   opposingPlayer = player2;
