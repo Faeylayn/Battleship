@@ -90,3 +90,7 @@ li.patrol-boat {
   width: 200px;
   text-align: center;
 }
+
+body {
+  background-image: url("../images/SeaSurface.jpg")
+}
